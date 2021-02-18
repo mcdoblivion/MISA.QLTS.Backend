@@ -61,6 +61,15 @@ namespace MISA.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mã tài sản không được phép trùng, vui lòng kiểm tra lại..
+        /// </summary>
+        public static string ErrorService_DuplicateAssetCode {
+            get {
+                return ResourceManager.GetString("ErrorService_DuplicateAssetCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mã khách hàng không được phép trùng, vui lòng kiểm tra lại..
         /// </summary>
         public static string ErrorService_DuplicateCustomerCode {
@@ -84,6 +93,24 @@ namespace MISA.Common.Properties {
         public static string ErrorService_DuplicateCustomerPhoneNumber {
             get {
                 return ResourceManager.GetString("ErrorService_DuplicateCustomerPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mã tài sản không được để trống, vui lòng kiểm tra lại..
+        /// </summary>
+        public static string ErrorService_EmptyAssetCode {
+            get {
+                return ResourceManager.GetString("ErrorService_EmptyAssetCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tên tài sản không được để trống, vui lòng kiểm tra lại..
+        /// </summary>
+        public static string ErrorService_EmptyAssetName {
+            get {
+                return ResourceManager.GetString("ErrorService_EmptyAssetName", resourceCulture);
             }
         }
         

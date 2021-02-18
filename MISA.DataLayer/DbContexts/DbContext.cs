@@ -93,7 +93,7 @@ namespace MISA.DataLayer.DbContexts
             var properties = typeof(TEntity).GetProperties();
 
             // Duyệt từng property. Lấy tên và giá trị. Sau đó gán vào câu lệnh sql
-            // var dynamicParameters = new DynamicParameters();
+            var dynamicParameters = new DynamicParameters();
             foreach (var property in properties)
             {
                 var propName = property.Name;
@@ -107,14 +107,14 @@ namespace MISA.DataLayer.DbContexts
                 sqlPropName += $", {propName}";
                 sqlPropParam += $", @{propName}";
 
-                // dynamicParameters.Add($"@{propName}", propValue);
+                dynamicParameters.Add($"@{propName}", propValue);
             }
 
             sqlPropName = sqlPropName.Remove(0, 1);
             sqlPropParam = sqlPropParam.Remove(0, 1);
             var sqlCommand = $"INSERT INTO {typeof(TEntity).Name} ({sqlPropName}) VALUES ({sqlPropParam})";
 
-            var response = _dbConnection.Execute(sqlCommand, param: entity, commandType: CommandType.Text);
+            var response = _dbConnection.Execute(sqlCommand, param: dynamicParameters, commandType: CommandType.Text);
             return response;
         }
 
@@ -122,10 +122,31 @@ namespace MISA.DataLayer.DbContexts
         /// Cập nhật object trong database
         /// </summary>
         /// <param name="entity">Object cần cập nhật</param>
+        /// <param name="id">Id của object cần cập nhật</param>
         /// <returns>Số object cập nhật thành công</returns>
         public int UpdateObject(TEntity entity, string id)
         {
-            return 0;
+            var sqlNewValue = string.Empty;
+
+            // Lấy ra các property của object
+            var properties = typeof(TEntity).GetProperties();
+
+            var dynamicParameters = new DynamicParameters();
+
+            // Duyệt từng property. Lấy tên và giá trị. Sau đó gán vào câu lệnh sql
+            foreach (var property in properties)
+            {
+                var propName = property.Name;
+                var propValue = property.GetValue(entity);
+
+                sqlNewValue = sqlNewValue + ", " + propName + "=" + $"@{propName}";
+                dynamicParameters.Add($"@{propName}", propValue);
+            }
+
+            sqlNewValue = sqlNewValue.Remove(0, 2);
+            var sqlCommand = $"UPDATE {typeof(TEntity).Name} SET {sqlNewValue} WHERE {typeof(TEntity).Name}Id = '{id}'";
+            var response = _dbConnection.Execute(sqlCommand, param: dynamicParameters, commandType: CommandType.Text);
+            return response;
         }
 
         /// <summary>

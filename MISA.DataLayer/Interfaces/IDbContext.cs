@@ -34,6 +34,7 @@ namespace MISA.DataLayer.Interfaces
         /// Cập nhật object trong database
         /// </summary>
         /// <param name="entity">Object cần cập nhật</param>
+        /// <param name="id">Id của object cần cập nhật</param>
         /// <returns>Số object cập nhật thành công</returns>
         int UpdateObject(TEntity entity, string id);
 
