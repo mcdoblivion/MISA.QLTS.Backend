@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MISA.Common.Models;
 using MISA.Common.Properties;
@@ -69,9 +70,46 @@ namespace MISA.Service.Services
             return isValid;
         }
 
-        protected override bool IsUpdateDataValid(Asset entity, ErrorMsg errorMsg = null)
+        protected override bool IsUpdateDataValid(string id, Asset asset, ErrorMsg errorMsg = null)
         {
-            return base.IsUpdateDataValid(entity, errorMsg);
+            var isValid = true;
+            if (errorMsg == null) errorMsg = new ErrorMsg();
+
+            // Kiểm tra tài sản có tồn tại trong database không
+            if (!IsDataExist(id, errorMsg))
+            {
+                isValid = false;
+                errorMsg.UserMsg.Add(Resources.ErrorService_IdNotExist + $": {id}");
+                return isValid;
+            }
+
+            // Nếu tồn tại thì validate dữ liệu(xử lý nghiệp vụ)
+            // 1. Bắt buộc nhập
+            // - Mã tài sản
+            if (string.IsNullOrEmpty(asset.AssetCode))
+            {
+                isValid = false;
+                errorMsg.UserMsg.Add(Resources.ErrorService_EmptyAssetCode);
+            }
+
+            // - Tên tài sản
+            if (string.IsNullOrEmpty(asset.AssetName))
+            {
+                isValid = false;
+                errorMsg.UserMsg.Add(Resources.ErrorService_EmptyAssetName);
+            }
+
+            // 2. Không được phép trùng
+            // - Mã tài sản
+            var assetCodeExist = _dbContext.CheckAssetCodeExist(asset.AssetCode);
+            var oldAssetCode = _dbContext.GetObject(sqlCommand: $"SELECT * FROM Asset WHERE AssetId = '{id}'").FirstOrDefault().AssetCode;
+            if (assetCodeExist != null && assetCodeExist != oldAssetCode)
+            {
+                isValid = false;
+                errorMsg.UserMsg.Add(Resources.ErrorService_DuplicateAssetCode);
+            }
+
+            return isValid;
         }
 
         #endregion Method

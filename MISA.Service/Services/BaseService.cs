@@ -81,7 +81,7 @@ namespace MISA.Service.Services
         {
             var serviceResult = new ServiceResult();
             var errorMsg = new ErrorMsg();
-            var isValid = IsUpdateDataValid(entity, errorMsg);
+            var isValid = IsUpdateDataValid(id, entity, errorMsg);
 
             if (isValid)
             {
@@ -141,10 +141,11 @@ namespace MISA.Service.Services
         /// <summary>
         /// Validate dữ liệu cập nhật
         /// </summary>
+        /// <param name="id">Id của thực thể cần validate</param>
         /// <param name="entity">Thực thể cần validate</param>
         /// <param name="errorMsg">Thông báo lỗi</param>
         /// <returns>true - hợp lệ; false - không hợp lệ</returns>
-        protected virtual bool IsUpdateDataValid(TEntity entity, ErrorMsg errorMsg = null)
+        protected virtual bool IsUpdateDataValid(string id, TEntity entity, ErrorMsg errorMsg = null)
         {
             return true;
         }
