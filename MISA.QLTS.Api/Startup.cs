@@ -35,7 +35,11 @@ namespace MISA.QLTS.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "MISA.QLTS.Api", Version = "v1" }));
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MISA.QLTS.Api", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
 
             // Cấu hình DI
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));

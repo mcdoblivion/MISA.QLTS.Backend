@@ -112,6 +112,57 @@ namespace MISA.Service.Services
             return isValid;
         }
 
+        public ServiceResult Get(string keyWord = null, int year = 0, string assetTypeId = null, string departmentId = null)
+        {
+            if (string.IsNullOrEmpty(keyWord)
+                && year == 0
+                && string.IsNullOrEmpty(assetTypeId)
+                && string.IsNullOrEmpty(departmentId))
+                return base.Get();
+
+            var condition = string.Empty;
+
+            if (!string.IsNullOrEmpty(keyWord))
+                condition += $"WHERE (AssetName LIKE '%{keyWord}%' OR AssetCode LIKE '%{keyWord}%')";
+
+            if (year > 0)
+            {
+                if (string.IsNullOrEmpty(condition))
+                    condition += " WHERE ";
+                else
+                    condition += " AND ";
+
+                condition += $"YEAR(IncreaseDate) = '{year}'";
+            }
+
+            if (!string.IsNullOrEmpty(assetTypeId))
+            {
+                if (string.IsNullOrEmpty(condition))
+                    condition += " WHERE ";
+                else
+                    condition += " AND ";
+
+                condition += $"AssetTypeId = '{assetTypeId}'";
+            }
+
+            if (!string.IsNullOrEmpty(departmentId))
+            {
+                if (string.IsNullOrEmpty(condition))
+                    condition += " WHERE ";
+                else
+                    condition += " AND ";
+
+                condition += $"DepartmentId = '{departmentId}'";
+            }
+
+            var sql = $"SELECT * FROM Asset {condition}";
+            var serviceResult = new ServiceResult()
+            {
+                Data = _dbContext.GetObject(sqlCommand: sql)
+            };
+            return serviceResult;
+        }
+
         #endregion Method
     }
 }

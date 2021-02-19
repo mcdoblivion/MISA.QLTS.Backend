@@ -25,7 +25,7 @@ namespace MISA.Service.Interfaces
         /// <summary>
         /// Xoá 1 bản ghi
         /// </summary>
-        /// <param name="id">id bản ghi</param>
+        /// <param name="ids">id bản ghi</param>
         /// <returns>ServiceResult</returns>
         ServiceResult Delete(string[] ids);
 

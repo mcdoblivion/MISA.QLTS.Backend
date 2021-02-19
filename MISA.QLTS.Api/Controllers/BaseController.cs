@@ -34,8 +34,9 @@ namespace MISA.QLTS.Api.Controllers
         /// GET dữ liệu
         /// </summary>
         /// <returns>dữ liệu</returns>
+        /// CreatedBy: DMCUONG (07/02/2021)
         [HttpGet]
-        public IActionResult Get()
+        public virtual IActionResult Get()
         {
             var serviceResult = _baseService.Get();
             var entities = serviceResult.Data as List<TEntity>;
