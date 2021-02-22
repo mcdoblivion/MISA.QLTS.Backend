@@ -16,6 +16,13 @@ namespace MISA.Service.Interfaces
         ServiceResult Get();
 
         /// <summary>
+        /// Lấy dữ liệu theo id
+        /// </summary>
+        /// <param name="id">id bản ghi</param>
+        /// <returns>ServiceResult</returns>
+        ServiceResult Get(string id);
+
+        /// <summary>
         /// Thêm 1 bản ghi
         /// </summary>
         /// <param name="entity">Thực thể cần thêm</param>

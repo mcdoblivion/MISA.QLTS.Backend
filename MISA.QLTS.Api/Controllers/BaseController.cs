@@ -45,6 +45,21 @@ namespace MISA.QLTS.Api.Controllers
         }
 
         /// <summary>
+        /// GET dữ liệu theo id
+        /// </summary>
+        /// <param name="id">id bản ghi</param>
+        /// <returns>Dữ liệu</returns>
+        /// CreatedBy: DMCUONG (22/02/2021)
+        [HttpGet("{id}")]
+        public virtual IActionResult Get(string id)
+        {
+            var serviceResult = _baseService.Get(id);
+            var entities = serviceResult.Data as List<TEntity>;
+
+            return StatusCode(entities.Count == 0 ? 204 : 200, entities);
+        }
+
+        /// <summary>
         /// Thêm dữ liệu
         /// </summary>
         /// <param name="entity">Thực thể cần thêm</param>

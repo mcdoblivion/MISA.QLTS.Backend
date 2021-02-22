@@ -46,6 +46,21 @@ namespace MISA.Service.Services
         }
 
         /// <summary>
+        /// Lấy dữ liệu theo id
+        /// </summary>
+        /// <param name="id">id bản ghi</param>
+        /// <returns>ServiceResult</returns>
+        public ServiceResult Get(string id)
+        {
+            var serviceResult = new ServiceResult()
+            {
+                Data = _dbContext.GetObject(sqlCommand: $"SELECT * FROM {typeof(TEntity).Name} WHERE {typeof(TEntity).Name}Id='{id}'")
+            };
+
+            return serviceResult;
+        }
+
+        /// <summary>
         /// Thêm 1 bản ghi
         /// </summary>
         /// <param name="entity">Thực thể cần thêm</param>
