@@ -139,8 +139,11 @@ namespace MISA.DataLayer.DbContexts
                 var propName = property.Name;
                 var propValue = property.GetValue(entity);
 
-                sqlNewValue = sqlNewValue + ", " + propName + "=" + $"@{propName}";
-                dynamicParameters.Add($"@{propName}", propValue);
+                if (propName != $"{typeof(TEntity).Name}Id")
+                {
+                    sqlNewValue = sqlNewValue + ", " + propName + "=" + $"@{propName}";
+                    dynamicParameters.Add($"@{propName}", propValue);
+                }
             }
 
             sqlNewValue = sqlNewValue.Remove(0, 2);
