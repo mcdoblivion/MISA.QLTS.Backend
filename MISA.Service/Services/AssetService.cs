@@ -112,6 +112,16 @@ namespace MISA.Service.Services
             return isValid;
         }
 
+        public override ServiceResult Get()
+        {
+            var serviceResult = new ServiceResult()
+            {
+                Data = _dbContext.GetObject(sqlCommand: "SELECT * FROM Asset ORDER BY ModifiedDate DESC")
+            };
+
+            return serviceResult;
+        }
+
         public ServiceResult Get(string keyWord = null, int year = 0, string assetTypeId = null, string departmentId = null)
         {
             if (string.IsNullOrEmpty(keyWord)

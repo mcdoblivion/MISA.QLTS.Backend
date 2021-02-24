@@ -108,6 +108,9 @@ namespace MISA.DataLayer.DbContexts
                 sqlPropParam += $", @{propName}";
 
                 dynamicParameters.Add($"@{propName}", propValue);
+                dynamicParameters.Add("@CreatedDate", DateTime.Now);
+                dynamicParameters.Add("@ModifiedDate", DateTime.Now);
+
             }
 
             sqlPropName = sqlPropName.Remove(0, 1);
@@ -144,6 +147,7 @@ namespace MISA.DataLayer.DbContexts
                     sqlNewValue = sqlNewValue + ", " + propName + "=" + $"@{propName}";
                     dynamicParameters.Add($"@{propName}", propValue);
                 }
+                dynamicParameters.Add("@ModifiedDate", DateTime.Now);
             }
 
             sqlNewValue = sqlNewValue.Remove(0, 2);
